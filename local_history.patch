@@ -1,0 +1,59 @@
+Index: src/ui/gui.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ui/gui.py	(date 1518331622109)
++++ src/ui/gui.py	(date 1518331622109)
+@@ -89,31 +89,26 @@
+ 				halign: 'center'
+ 				valign: 'center'
+ 				color: (1, 1, 1, 0.3)
+-		AnchorLayout:
+-			Image:
+-				source: "C:\\AlbumArt\\black.jpg"
+-				allow_stretch: True 
+-				keep_ratio: False
+-				color: (.8, .8, .8, .3)
+-			BoxLayout:
+-				id: bottom_frame
+-				size_hint: (1, .2) 
+-				orientation: 'vertical'
+-				spacing: 7
+-				Label:
+-					id: song_title
+-					text: app.song_title
+-					text_size: app.title_font_size
+-					halign: 'center'
+-					valign: 'center'
+-					color: (1, 1, 1, 1)
+-				Label:
+-					id: song_artist
+-					text: app.song_artist
+-					text_size: app.artist_font_size
+-					halign: 'center'
+-					valign: 'center'
+-					color: (1, 1, 1, 1)
++
++		BoxLayout:
++			id: bottom_frame
++			size_hint: (1, .2) 
++			orientation: 'vertical'
++			spacing: 7
++			Label:
++				id: song_title
++				text: app.song_title
++				text_size: app.title_font_size
++				halign: 'center'
++				valign: 'center'
++				color: (1, 1, 1, 1)
++			Label:
++				id: song_artist
++				text: app.song_artist
++				text_size: app.artist_font_size
++				halign: 'center'
++				valign: 'center'
++				color: (1, 1, 1, 1)
+ '''
+ 
+ Media_Next = 0xB0
