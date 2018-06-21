@@ -12,66 +12,108 @@ import subprocess
 import pylast
 import pytify
 
+import urllib.request
+from bs4 import BeautifulSoup
+
 from spotipy.oauth2 import SpotifyClientCredentials
 from src.Client import Spotify
 
 import pylast
 
-last_API_KEY = '6c6d061572bd413eae0b05ba67bf5969'  # this is a sample key
-last_API_SECRET = 'a896810b2e95b6aef23c22a6a4c7b7cd'
+## Currently not functional as the following information/variables are not defined
+last_API_KEY = '???'  # this is a sample key
+last_API_SECRET = '???'
 
 # In order to perform a write operation you need to authenticate yourself
-last_username = "shanetimmerman"
-last_password_hash = pylast.md5("nowr-8016lfm")
+last_username = "???"
+last_password_hash = pylast.md5("???")
 
-spotify_client_id = 'eca1c7fead8c4c5abc0b3536a687190a'
-spotify_client_secret = '2bbc0a23c25d464e941eeb0bdaecd88c'
+spotify_client_id = '???'
+spotify_client_secret = '???'
 
-spotify_username = '12185757188'
-
+spotify_username = '???'
 
 def getLyrics(song_info):
-	if not os.path.exists('C:\\Lyrics\\' + song_info + ".txt"):
-		if not os.path.exists('C:\\Lyrics\\' + song_info + ".srt"):
-			return ()
+	print(song_info)
 
-		f = open('C:\\Lyrics\\' + song_info + ".srt", "r")
-		as_string = f.read()
+	page = urllib.request.urlopen(
+		r'http://www.rentanadviser.com/en/subtitles/getsubtitle.aspx?artist=%s&song=%s' %
+		(song_info.get_artist(), song_info.get_title()))
 
-		by_line = as_string.split("\n\n")
+	soup = BeautifulSoup(page, 'html.parser')
 
-		by_line = by_line[:-2]
 
-		by_more = []
+	lyrics = soup.body.find('span', attrs={'id': 'ctl00_ContentPlaceHolder1_lblSubtitle'})
+	for br in lyrics.find_all('br'):
+		br.replace_with('\n')
+	print(lyrics.text.strip())
 
-		for element in by_line:
-			element_split = element.split("\n")
-			element_split = element_split[1:]
-			rejoin_lyrics = element_split[1]
-			for part in element_split[2:]:
-				rejoin_lyrics += " " + part
-			end_time = element_split[0].split(" --> ")[1]
+	as_string = lyrics.text.strip()
 
-			by_colon = end_time.split(":")
-			sec_split = by_colon[2].split(",")
-			seconds = int(sec_split[0])
-			milli = int(sec_split[1])/1000
-			end_time_int = int(by_colon[1]) * 60 + seconds + milli
-			by_more.append((end_time_int, rejoin_lyrics.capitalize()))
-		f.close()
+	by_line = as_string.split("\n\n")
 
-		prod = open('C:\\Lyrics\\' + song_info + ".txt", "w")
-		prod.write(str(tuple(by_more)))
+	by_line = by_line[:-2]
 
-		prod.close()
+	by_more = []
 
-		return by_more
-	else:
-		f = open('C:\\Lyrics\\' + song_info + ".txt")
-		as_string = f.read()
-		f.close()
-		evalled = ast.literal_eval(as_string)
-		return evalled
+	for element in by_line:
+		element_split = element.split("\n")
+		element_split = element_split[1:]
+		rejoin_lyrics = element_split[1]
+		for part in element_split[2:]:
+			rejoin_lyrics += " " + part
+		end_time = element_split[0].split(" --> ")[1]
+
+		by_colon = end_time.split(":")
+		sec_split = by_colon[2].split(",")
+		seconds = int(sec_split[0])
+		milli = int(sec_split[1])/1000
+		end_time_int = int(by_colon[1]) * 60 + seconds + milli
+		by_more.append((end_time_int, rejoin_lyrics.capitalize()))
+
+	return by_more
+
+	# if not os.path.exists('C:\\Lyrics\\' + song_info + ".txt"):
+	# 	if not os.path.exists('C:\\Lyrics\\' + song_info + ".srt"):
+	# 		return ()
+	#
+	# 	f = open('C:\\Lyrics\\' + song_info + ".srt", "r")
+	# 	as_string = f.read()
+	#
+	# 	by_line = as_string.split("\n\n")
+	#
+	# 	by_line = by_line[:-2]
+	#
+	# 	by_more = []
+	#
+	# 	for element in by_line:
+	# 		element_split = element.split("\n")
+	# 		element_split = element_split[1:]
+	# 		rejoin_lyrics = element_split[1]
+	# 		for part in element_split[2:]:
+	# 			rejoin_lyrics += " " + part
+	# 		end_time = element_split[0].split(" --> ")[1]
+	#
+	# 		by_colon = end_time.split(":")
+	# 		sec_split = by_colon[2].split(",")
+	# 		seconds = int(sec_split[0])
+	# 		milli = int(sec_split[1])/1000
+	# 		end_time_int = int(by_colon[1]) * 60 + seconds + milli
+	# 		by_more.append((end_time_int, rejoin_lyrics.capitalize()))
+	# 	f.close()
+	#
+	# 	prod = open('C:\\Lyrics\\' + song_info + ".txt", "w")
+	# 	prod.write(str(tuple(by_more)))
+	#
+	# 	prod.close()
+	#
+	# 	return by_more
+	# else:
+	# 	f = open('C:\\Lyrics\\' + song_info + ".txt")
+	# 	as_string = f.read()
+	# 	f.close()
+	# 	evalled = ast.literal_eval(as_string)
+	# 	return evalled
 
 
 class SpotifyStuff:
@@ -107,7 +149,7 @@ class SpotifyStuff:
 
 			duration = song_info.get_duration()
 			album_art = self.crop_image()
-			lyrics = getLyrics(str(song_info))
+			lyrics = getLyrics(song_info)
 			self.dic['title'] = str(title)
 			self.dic['artist'] = str(artist)
 			self.dic['album_title'] = str(album_title)

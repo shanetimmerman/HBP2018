@@ -2,7 +2,7 @@ from time import sleep
 
 from kivy.app import App
 from kivy.config import Config
-Config.set('graphics', 'fullscreen', 1)
+# Config.set('graphics', 'fullscreen', 1)
 
 
 from kivy.core.window import Window
