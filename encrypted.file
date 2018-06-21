@@ -1,0 +1,11 @@
+last_API_KEY = '6c6d061572bd413eae0b05ba67bf5969'  # this is a sample key
+last_API_SECRET = 'a896810b2e95b6aef23c22a6a4c7b7cd'
+
+# In order to perform a write operation you need to authenticate yourself
+last_username = "shanetimmerman"
+last_password_hash = pylast.md5("nowr-8016lfm")
+
+spotify_client_id = 'eca1c7fead8c4c5abc0b3536a687190a'
+spotify_client_secret = '2bbc0a23c25d464e941eeb0bdaecd88c'
+
+spotify_username = '12185757188'
