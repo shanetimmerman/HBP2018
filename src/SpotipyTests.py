@@ -1,17 +1,7 @@
-import ast
-import sys
-
-import os
 import urllib
 from urllib import request
 
 import datetime
-import spotipy
-import spotipy.util as util
-import subprocess
-import pylast
-import pytify
-
 import urllib.request
 from bs4 import BeautifulSoup
 
@@ -72,6 +62,10 @@ def getLyrics(song_info):
 		by_more.append((end_time_int, rejoin_lyrics.capitalize()))
 
 	return by_more
+
+	# Used for local testing and displaying
+	# Because I could not track song progress with the spotify api on windows,
+	# I was forced to track it myself, and webscraping was too slow
 
 	# if not os.path.exists('C:\\Lyrics\\' + song_info + ".txt"):
 	# 	if not os.path.exists('C:\\Lyrics\\' + song_info + ".srt"):
@@ -175,6 +169,7 @@ class SpotifyStuff:
 
 		blur = cv2.blur(cropped, (5, 5))
 
+		#  Alternates what it writes to, or else the image cannot be overridden
 		self.switch = not self.switch
 
 		cv2.imwrite(r"C:\AlbumArt\Background" + str(self.switch) + ".jpg", blur)
